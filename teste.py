@@ -1,5 +1,5 @@
 from PyPDF2 import PdfFileMerger
-import os
+import shutil, os
 
 
 def pega_arqs(*args) -> tuple:
@@ -9,6 +9,8 @@ def pega_arqs(*args) -> tuple:
             for file in files:
                 if file.find(".pdf") != -1:
                     l.append((p, file))
+
+    print(l)
     return l
 
 
@@ -16,7 +18,12 @@ def arqs_lista(*args) -> list:
     arqs = []
     for elemento in args:
         for item in elemento:
-            arqs.append(item[1])
+            try:
+                arqs.append(item[0]+ "\\" + item[1])
+            except FileNotFoundError:
+                print("Algum arquivo contém erros, saindo ...")
+                break
+    print(len(arqs)," arquivos." )
     return arqs
 
 
@@ -26,9 +33,11 @@ def mescla(lista):
         for pdf in pdfs:
             merger.append(pdf)
 
-        nome_arquivo = input("Digite o nome para o arquivo mesclado: ")
+        nome_arquivo = "Instrumento Geral"
         merger.write(f"{nome_arquivo}.pdf")
         merger.close()
+        caminho_atual = os.getcwd()
+        shutil.move(f"{caminho_atual}\\{nome_arquivo}.pdf",caminho)
         print("Os arquivos foram mesclados com sucesso!")
     else:
         print("Esta pasta está vazia ou não contém nenhum PDF!")
