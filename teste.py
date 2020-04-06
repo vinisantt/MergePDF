@@ -27,10 +27,10 @@ def arqs_lista(*args) -> list:
     return arqs
 
 
-def mescla(lista):
+def mescla(listaPdfs):
     if lista != []:
         merger = PdfFileMerger()
-        for pdf in pdfs:
+        for pdf in listaPdfs:
             merger.append(pdf)
 
         nome_arquivo = "Instrumento Geral"
